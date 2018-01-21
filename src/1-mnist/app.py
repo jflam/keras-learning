@@ -1,7 +1,7 @@
-'''Training app for a CNN on the MNIST dataset.'''
+'''Train and evaluate a fully connected network against the MNIST dataset.'''
 
 # This is the first step in learning Keras
-# I will be reproducing the code in the mninst CNN example
+# I will be reproducing the code in the MNIST Keras fully connected network example
 # so that the concepts of Keras make sense to me.
 
 # There will be a set of hyper parameters that I will write at 
