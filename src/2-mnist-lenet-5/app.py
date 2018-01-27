@@ -1,19 +1,17 @@
-'''Training app for a CNN on the MNIST dataset.'''
+'''Training app for a Lenet-5 CNN on the MNIST dataset.'''
 
-# This is the first step in learning Keras
-# I will be reproducing the code in the mninst CNN example
-# so that the concepts of Keras make sense to me.
-
-# There will be a set of hyper parameters that I will write at 
-# the start, and I will experiment with running this in various
-# configurations, including on FloydHub, and our clone of that
-# which may involve using KubeFlow
+# This is the second step in learning Keras. The first
+# was for a fully connected network. This time, I will be
+# using the Lenet-5 model topology instead. Here, it should
+# yield 0.9933% accuracy against the test dataset, with a 
+# test loss of 0.04381.
 
 import numpy as np
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers.core import Activation, Flatten, Dense
 from keras.optimizers import RMSprop
 
 # Hyper parameters
@@ -52,11 +50,20 @@ def import_training_and_test_data_and_reshape():
         x_test.dtype == 'uint8' and \
         y_test.dtype == 'uint8'
 
+    if keras.backend.image_data_format() == 'channels_first':
+        x_train = x_train.reshape(x_train.shape[0], 1, 28, 28)
+        x_test = x_test.reshape(x_test.shape[0], 1, 28, 28)
+        input_shape = (1, 28, 28)
+    else:
+        x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
+        x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
+        input_shape = (28, 28, 1)
+    
     # Flatten each 28x28 grayscale pixel grid into a single vector of length 28x28
     # Note that the final size of the training and test grids are (m, 28x28) where
     # m is the number of images in the training and test datasets.
-    x_train = x_train.reshape(x_train.shape[0], x_train.shape[1] * x_train.shape[2])
-    x_test = x_test.reshape(x_test.shape[0], x_test.shape[1] * x_test.shape[2])
+    #x_train = x_train.reshape(x_train.shape[0], x_train.shape[1] * x_train.shape[2])
+    #x_test = x_test.reshape(x_test.shape[0], x_test.shape[1] * x_test.shape[2])
 
     # Convert all of the grayscale pixel data to float32 and normalize to range of 0-1
     # from a range of 0-255 max(uint8)
@@ -67,24 +74,39 @@ def import_training_and_test_data_and_reshape():
     y_train = keras.utils.to_categorical(y_train, NUM_CLASSES)
     y_test = keras.utils.to_categorical(y_test, NUM_CLASSES)
 
-    return x_train, y_train, x_test, y_test
+    return x_train, y_train, x_test, y_test, input_shape
 
-def create_model():
+def create_model(input_shape):
     '''Returns a convolutional neural network that uses the LeNet-5 topology.'''
     model = Sequential()
-    model.add(Dense(512, activation='relu', input_shape=(28*28,)))
-    model.add(Dropout(0.2))
-    model.add(Dense(512, activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(10, activation='softmax'))
+
+    # first set of CONV => RELU => POOL
+    # we need to specify the input shape only for the first layer
+    model.add(Conv2D(20, kernel_size=(5, 5), padding="same", input_shape=input_shape))
+    model.add(Activation("relu"))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2)))
+
+    # second set of CONV => RELU => POOL
+    # in subsequent layers, Keras computes the input shape from the previous layer
+    model.add(Conv2D(50, (5, 5), padding="same"))
+    model.add(Activation("relu"))
+    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    
+    # third set of FC => RELU layers
+    model.add(Flatten())
+    model.add(Dense(500, activation="relu"))
+
+    # softmax classifier as final output
+    model.add(Dense(10, activation="softmax"))
+
     return model
 
-x_train, y_train, x_test, y_test = import_training_and_test_data_and_reshape()
+x_train, y_train, x_test, y_test, input_shape = import_training_and_test_data_and_reshape()
 
 # Print out the shapes of the training and testing examples and labels
 print_training_testing_dataset_shapes(x_train, y_train, x_test, y_test)
 
-model = create_model()
+model = create_model(input_shape)
 
 # Prints a summary of the model that we're using
 model.summary()
@@ -94,8 +116,9 @@ model.compile(loss='categorical_crossentropy',
               optimizer=RMSprop(),
               metrics=['accuracy'])
 
-# I wonder how fast this goes on truly fast hardware ... what is the rate limiting
-# step on the mobile 940MX 2GB VRAM card that I'm using on my laptop?
+# The rate limiting step here, after comparing training rates on 940MX vs. 965M 
+# on my Surface Studio is clearly memory bandwidth. The 965M card has 2x the 
+# bandwidth, and trains at 2x the rate.
 print("Compiling ... er I mean Training ...")
 history = model.fit(x_train, y_train,
                     batch_size=BATCH_SIZE,

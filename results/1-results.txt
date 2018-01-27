@@ -1,0 +1,75 @@
+Using TensorFlow backend.
+Shape of datasets:
+Training dataset: (60000, 784), type: float32
+Training results: (60000, 10), type: float64
+Testing dataset: (10000, 784), type: float32
+Testing results: (10000, 10), type: float64
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense_1 (Dense)              (None, 512)               401920
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 512)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               262656
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 512)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                5130
+=================================================================
+Total params: 669,706
+Trainable params: 669,706
+Non-trainable params: 0
+_________________________________________________________________
+Compiling ... er I mean Training ...
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/20
+2018-01-27 12:19:40.072197: I C:\tf_jenkins\home\workspace\rel-win\M\windows-gpu\PY\36\tensorflow\core\platform\cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX AVX2
+2018-01-27 12:19:40.662018: I C:\tf_jenkins\home\workspace\rel-win\M\windows-gpu\PY\36\tensorflow\core\common_runtime\gpu\gpu_device.cc:1030] Found device 0 with properties:
+name: GeForce 940MX major: 5 minor: 0 memoryClockRate(GHz): 1.189
+pciBusID: 0000:01:00.0
+totalMemory: 2.00GiB freeMemory: 1.65GiB
+2018-01-27 12:19:40.663689: I C:\tf_jenkins\home\workspace\rel-win\M\windows-gpu\PY\36\tensorflow\core\common_runtime\gpu\gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 940MX, pci bus id: 0000:01:00.0, compute capability: 5.0)
+60000/60000 [==============================] - 8s 128us/step - loss: 0.2447 - acc: 0.9254 - val_loss: 0.1546 - val_acc: 0.9492
+Epoch 2/20
+60000/60000 [==============================] - 6s 97us/step - loss: 0.1041 - acc: 0.9690 - val_loss: 0.0873 - val_acc: 0.9734
+Epoch 3/20
+60000/60000 [==============================] - 6s 99us/step - loss: 0.0764 - acc: 0.9771 - val_loss: 0.0803 - val_acc: 0.9769
+Epoch 4/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0597 - acc: 0.9818 - val_loss: 0.0798 - val_acc: 0.9789
+Epoch 5/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0505 - acc: 0.9845 - val_loss: 0.0720 - val_acc: 0.9821
+Epoch 6/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0438 - acc: 0.9868 - val_loss: 0.0826 - val_acc: 0.9788
+Epoch 7/20
+60000/60000 [==============================] - 6s 93us/step - loss: 0.0392 - acc: 0.9885 - val_loss: 0.0871 - val_acc: 0.9810
+Epoch 8/20
+60000/60000 [==============================] - 6s 93us/step - loss: 0.0373 - acc: 0.9898 - val_loss: 0.0727 - val_acc: 0.9844
+Epoch 9/20
+60000/60000 [==============================] - 6s 93us/step - loss: 0.0324 - acc: 0.9906 - val_loss: 0.0932 - val_acc: 0.9819
+Epoch 10/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0309 - acc: 0.9913 - val_loss: 0.0943 - val_acc: 0.9815
+Epoch 11/20
+60000/60000 [==============================] - 6s 95us/step - loss: 0.0272 - acc: 0.9926 - val_loss: 0.0917 - val_acc: 0.9839
+Epoch 12/20
+60000/60000 [==============================] - 6s 93us/step - loss: 0.0262 - acc: 0.9926 - val_loss: 0.0953 - val_acc: 0.9832
+Epoch 13/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0231 - acc: 0.9938 - val_loss: 0.0853 - val_acc: 0.9841
+Epoch 14/20
+60000/60000 [==============================] - 6s 93us/step - loss: 0.0215 - acc: 0.9937 - val_loss: 0.0993 - val_acc: 0.9829
+Epoch 15/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0226 - acc: 0.9943 - val_loss: 0.1007 - val_acc: 0.9844
+Epoch 16/20
+60000/60000 [==============================] - 6s 95us/step - loss: 0.0205 - acc: 0.9941 - val_loss: 0.1048 - val_acc: 0.9827
+Epoch 17/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0220 - acc: 0.9946 - val_loss: 0.1029 - val_acc: 0.9833
+Epoch 18/20
+60000/60000 [==============================] - 6s 96us/step - loss: 0.0190 - acc: 0.9950 - val_loss: 0.1157 - val_acc: 0.9836
+Epoch 19/20
+60000/60000 [==============================] - 6s 98us/step - loss: 0.0197 - acc: 0.9949 - val_loss: 0.1194 - val_acc: 0.9826
+Epoch 20/20
+60000/60000 [==============================] - 6s 94us/step - loss: 0.0183 - acc: 0.9949 - val_loss: 0.1244 - val_acc: 0.9816
+Evaluating:
+Results:
+Test loss:  0.1243734606878332
+Test accuracy:  0.9816
