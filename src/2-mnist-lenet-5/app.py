@@ -4,7 +4,8 @@
 # was for a fully connected network. This time, I will be
 # using the Lenet-5 model topology instead. Here, it should
 # yield 0.9933% accuracy against the test dataset, with a 
-# test loss of 0.04381.
+# test loss of 0.04381. This network has 1,256,080 parameters!
+# Which is ~2x the size of the earlier fully connected network.
 
 import numpy as np
 import keras

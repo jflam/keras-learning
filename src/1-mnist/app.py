@@ -4,10 +4,9 @@
 # I will be reproducing the code in the MNIST Keras fully connected network example
 # so that the concepts of Keras make sense to me.
 
-# There will be a set of hyper parameters that I will write at 
-# the start, and I will experiment with running this in various
-# configurations, including on FloydHub, and our clone of that
-# which may involve using KubeFlow
+# The results of this fully connected network (Dense network)
+# is 0.9816 accuracy at a test loss of 0.12437
+# This network has 669,706 parameters.
 
 import numpy as np
 import keras
